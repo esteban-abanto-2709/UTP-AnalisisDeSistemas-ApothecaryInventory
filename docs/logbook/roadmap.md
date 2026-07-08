@@ -1,0 +1,61 @@
+# Roadmap
+
+Trabajo comprometido: lo que sí se va a hacer. Código `RM-###` (nunca se reutiliza).
+Al terminar una tarea se mueve al changelog y se borra de aquí.
+
+**Formato de cada entrada:**
+- **Objetivo:** qué se quiere lograr.
+- **Hecho cuando:** criterio claro de finalización.
+- **Fecha** y **Estado** (Abierto / En progreso).
+
+---
+
+## [RM-004] Conexión de la API a PostgreSQL (ORM + entidades base)
+- **Objetivo:** cablear NestJS a la Postgres del Docker Compose vía ORM y modelar las entidades del esquema físico (administrador, empleado, cliente, medicamento, lote, registro_venta, detalle_venta, detalle_descuento_lote).
+- **Hecho cuando:** la API arranca conectada a la BD, las migraciones crean las tablas con sus restricciones (stock no negativo, unicidad de documentos) y las entidades quedan disponibles para los módulos.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-005] Autenticación e inicio de sesión con RBAC (CU01)
+- **Objetivo:** login por credenciales, contraseñas con hash (bcrypt/argon2) y control de acceso por rol (Vendedor / Administrador).
+- **Hecho cuando:** un empleado activo inicia sesión, obtiene sesión según su rol, y las rutas quedan protegidas para no autenticados; usuario inactivo o credenciales incorrectas se rechazan con el mensaje correspondiente.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-006] Gestión de usuarios (CU06)
+- **Objetivo:** CRUD del personal (alta, edición, baja lógica, listado) con validación de DNI único.
+- **Hecho cuando:** el administrador puede registrar, editar, desactivar y listar empleados; la baja lógica revoca acceso sin borrar historial.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-007] Gestión de inventario / productos (CU03)
+- **Objetivo:** CRUD de productos farmacéuticos, búsqueda rápida y consulta de stock en tiempo real; baja lógica que preserva historial.
+- **Hecho cuando:** admin da de alta/edita/desactiva productos y el stock consultado refleja el estado real; el vendedor puede consultar pero no mantener.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-008] Gestión de lotes con vencimientos y FEFO (CU09)
+- **Objetivo:** registro de lotes por medicamento con fecha de vencimiento, control de stock por lote, descuentos por vencimiento próximo y lógica FEFO.
+- **Hecho cuando:** se registran/editan/desactivan lotes, se aplican descuentos por lote y las ventas descuentan siguiendo FEFO; código de lote único por producto.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-009] Gestión de clientes (CU07)
+- **Objetivo:** CRUD de clientes (DNI/RUC, razón social, contacto) para agilizar la facturación, con baja lógica.
+- **Hecho cuando:** vendedor/admin registran, editan, desactivan y buscan clientes; documento duplicado se rechaza; los clientes quedan invocables desde ventas.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-010] Gestión de proveedores (CU08)
+- **Objetivo:** CRUD de laboratorios y distribuidores (RUC, razón social, contacto del asesor), con baja lógica.
+- **Hecho cuando:** el administrador registra, edita, desactiva y busca proveedores; RUC duplicado se rechaza.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-011] Gestión de ventas (CU02)
+- **Objetivo:** registro de ventas en mostrador (carrito, cliente, comprobante, método de pago), descuento de stock en tiempo real e historial de ventas (historial solo administrador).
+- **Hecho cuando:** una venta persiste, descuenta stock al instante, genera comprobante y valida stock insuficiente; el admin visualiza el historial filtrable; soporta "Cliente Varios".
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-012] Reportes y exportación (CU04)
+- **Objetivo:** reportes de ventas diarias y rotación de productos por rango de fechas, exportables a PDF/Excel.
+- **Hecho cuando:** el admin genera reportes con filtros de fecha, los visualiza en tablas y los exporta; se manejan rango inválido y periodo sin registros.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
+
+## [RM-013] Panel de control con alertas de stock mínimo (CU05)
+- **Objetivo:** dashboard con indicadores en tiempo real y alertas automáticas de productos en/bajo su stock mínimo.
+- **Hecho cuando:** al cargar el panel se calculan indicadores y se listan las alertas de stock crítico; permite refrescar los datos.
+- **Fecha:** 2026-07-07 · **Estado:** Abierto
