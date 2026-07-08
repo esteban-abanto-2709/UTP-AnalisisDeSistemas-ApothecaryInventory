@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-004] Conexión de la API a PostgreSQL (ORM + entidades base)
-- **Objetivo:** cablear NestJS a la Postgres del Docker Compose vía ORM y modelar las entidades del esquema físico (administrador, empleado, cliente, medicamento, lote, registro_venta, detalle_venta, detalle_descuento_lote).
-- **Hecho cuando:** la API arranca conectada a la BD, las migraciones crean las tablas con sus restricciones (stock no negativo, unicidad de documentos) y las entidades quedan disponibles para los módulos.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-005] Autenticación e inicio de sesión con RBAC (CU01)
 - **Objetivo:** login por credenciales, contraseñas con hash (bcrypt/argon2) y control de acceso por rol (Vendedor / Administrador).
 - **Hecho cuando:** un empleado activo inicia sesión, obtiene sesión según su rol, y las rutas quedan protegidas para no autenticados; usuario inactivo o credenciales incorrectas se rechazan con el mensaje correspondiente.

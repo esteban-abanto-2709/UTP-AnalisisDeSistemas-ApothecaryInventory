@@ -4,6 +4,9 @@
 /build
 /prisma/dist-seed
 
+# Prisma generated client (rust-free, se regenera con `prisma generate`)
+/src/generated
+
 # Logs
 logs
 *.log
