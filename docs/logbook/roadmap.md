@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-007] Gestión de inventario / productos (CU03)
-- **Objetivo:** CRUD de productos farmacéuticos, búsqueda rápida y consulta de stock en tiempo real; baja lógica que preserva historial.
-- **Hecho cuando:** admin da de alta/edita/desactiva productos y el stock consultado refleja el estado real; el vendedor puede consultar pero no mantener.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-008] Gestión de lotes con vencimientos y FEFO (CU09)
 - **Objetivo:** registro de lotes por medicamento con fecha de vencimiento, control de stock por lote, descuentos por vencimiento próximo y lógica FEFO.
 - **Hecho cuando:** se registran/editan/desactivan lotes, se aplican descuentos por lote y las ventas descuentan siguiendo FEFO; código de lote único por producto.

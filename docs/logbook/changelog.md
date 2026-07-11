@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-007] Gestión de inventario / productos (CU03) (2026-07-10 23:58)
+Modelo `Medicamento` en Prisma (nombre único, precio, stock, baja lógica; CHECKs de stock/precio no negativos) y módulo `inventario` en NestJS (`/productos`: GET para todo autenticado, POST/PATCH solo ADMINISTRADOR, 409 por nombre duplicado). Página `/productos` con búsqueda en vivo, tabla de stock y mantenimiento visible solo para admin. Verificado end-to-end; tests y lint verdes en ambas apps.
+
 ## [RM-006] Gestión de usuarios (CU06) (2026-07-10 22:44)
 Módulo `usuarios` en NestJS (listar, alta, edición con reset opcional de contraseña, baja lógica vía PATCH `activo`) solo para ADMINISTRADOR, con 409 por DNI duplicado y bloqueo de auto-desactivación; página `/usuarios` en la web con tabla y formulario. Sin cambios de schema (el modelo `Empleado` ya cubría todo). Verificado end-to-end; tests y lint verdes.
 

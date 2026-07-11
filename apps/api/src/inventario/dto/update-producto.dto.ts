@@ -1,0 +1,33 @@
+import {
+  IsBoolean,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
+
+export class UpdateProductoDto {
+  @IsOptional()
+  @IsString()
+  @MinLength(1, { message: 'El nombre es obligatorio' })
+  nombre?: string;
+
+  @IsOptional()
+  @IsNumber(
+    { maxDecimalPlaces: 2 },
+    { message: 'El precio debe ser un número con máximo 2 decimales' },
+  )
+  @Min(0, { message: 'El precio no puede ser negativo' })
+  precio?: number;
+
+  @IsOptional()
+  @IsInt({ message: 'El stock debe ser un número entero' })
+  @Min(0, { message: 'El stock no puede ser negativo' })
+  stock?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  activo?: boolean;
+}
