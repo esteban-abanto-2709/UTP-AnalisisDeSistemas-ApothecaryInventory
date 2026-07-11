@@ -1,5 +1,37 @@
 import * as bcrypt from 'bcrypt';
-import type { PrismaClient, Rol } from '../../src/generated/prisma/client';
+import type {
+  PrismaClient,
+  Rol,
+  TipoDocumento,
+} from '../../src/generated/prisma/client';
+
+const clientes: {
+  tipoDocumento: TipoDocumento;
+  numeroDocumento: string;
+  nombre: string;
+  telefono?: string;
+  direccion?: string;
+  email?: string;
+}[] = [
+  {
+    tipoDocumento: 'DNI',
+    numeroDocumento: '44556677',
+    nombre: 'Ana Torres Salas',
+    telefono: '987654321',
+  },
+  {
+    tipoDocumento: 'DNI',
+    numeroDocumento: '45678912',
+    nombre: 'Pedro Gutiérrez Lima',
+  },
+  {
+    tipoDocumento: 'RUC',
+    numeroDocumento: '20123456789',
+    nombre: 'Clínica San Rafael S.A.C.',
+    direccion: 'Av. Grau 123, Lima',
+    email: 'compras@sanrafael.pe',
+  },
+];
 
 const vendedores: { dni: string; nombre: string; rol: Rol }[] = [
   { dni: '40123456', nombre: 'María Quispe Huamán', rol: 'VENDEDOR' },
@@ -113,6 +145,14 @@ export async function seedDemo(prisma: PrismaClient) {
     });
   }
 
+  for (const c of clientes) {
+    await prisma.cliente.upsert({
+      where: { numeroDocumento: c.numeroDocumento },
+      update: {},
+      create: c,
+    });
+  }
+
   let totalLotes = 0;
   for (const m of medicamentos) {
     const stock = m.lotes.reduce((s, l) => s + l.stock, 0);
@@ -141,6 +181,6 @@ export async function seedDemo(prisma: PrismaClient) {
   }
 
   console.log(
-    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${medicamentos.length} medicamentos, ${totalLotes} lotes`,
+    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${clientes.length} clientes, ${medicamentos.length} medicamentos, ${totalLotes} lotes`,
   );
 }

@@ -14,6 +14,11 @@ enum Rol {
   ADMINISTRADOR
 }
 
+enum TipoDocumento {
+  DNI
+  RUC
+}
+
 model Medicamento {
   id        Int      @id @default(autoincrement())
   nombre    String   @unique
@@ -44,6 +49,21 @@ model Lote {
   @@unique([medicamentoId, codigo])
   @@index([medicamentoId, fechaVencimiento])
   @@map("lotes")
+}
+
+model Cliente {
+  id              Int           @id @default(autoincrement())
+  tipoDocumento   TipoDocumento
+  numeroDocumento String        @unique
+  nombre          String
+  telefono        String?
+  direccion       String?
+  email           String?
+  activo          Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("clientes")
 }
 
 model Empleado {

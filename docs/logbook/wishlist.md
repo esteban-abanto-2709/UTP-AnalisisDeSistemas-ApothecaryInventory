@@ -15,3 +15,6 @@ Emitir boletas/facturas formales (no solo comprobantes internos), con la integra
 
 ## [WL-003] Consulta pública de disponibilidad de productos
 Permitir que los clientes verifiquen el stock desde fuera del local antes de acercarse (necesidad detectada en el cuestionario a clientes).
+
+## [WL-004] Autocompletar cliente desde RENIEC/SUNAT por documento
+Al teclear DNI/RUC en la venta y no existir el cliente, consultar un servicio externo (RENIEC para DNI, SUNAT para RUC) para traer nombre/razón social y dirección automáticamente, en vez de digitarlos a mano. Requiere API key y proveedor externo. Base ya lista: `GET /clientes/documento/:numero` (RM-009).

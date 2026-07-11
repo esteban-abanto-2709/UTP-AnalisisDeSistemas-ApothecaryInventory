@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-009] Gestión de clientes (CU07) (2026-07-11 12:16)
+Modelo `Cliente` (tipoDocumento DNI/RUC, numeroDocumento único, nombre/razón social, teléfono/dirección/email opcionales, baja lógica) y módulo `clientes` abierto a vendedor y admin: `GET /clientes?q=` (busca por documento o nombre), `GET /clientes/documento/:numero` para autocompletar en la venta (404 si es nuevo → alta manual), POST con validación de longitud (DNI 8, RUC 11) y 409 por documento duplicado, PATCH edita contacto/nombre/estado (documento inmutable). Integración RENIEC/SUNAT queda en WL-004. Tests y build verdes; modelo verificado contra Postgres vía seed.
+
 ## [RM-008] Gestión de lotes con vencimientos y FEFO (CU09) (2026-07-11 10:50)
 Modelo `Lote` (código único por medicamento, vencimiento, stock inicial/actual, descuento %, baja lógica; CHECKs de rango) y módulo `lotes` (`/lotes` solo ADMINISTRADOR: alta que suma stock, edición/desactivación que lo ajusta, todo transaccional). El stock del medicamento pasa a derivarse de lotes (cacheado, ya no editable a mano) y `LotesService.descontarFEFO` implementa el descuento por vencimiento reutilizable; su cableado a ventas queda para RM-011. Verificado end-to-end contra Postgres; tests y lint verdes.
 

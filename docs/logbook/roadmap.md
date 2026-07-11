@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-009] Gestión de clientes (CU07)
-- **Objetivo:** CRUD de clientes (DNI/RUC, razón social, contacto) para agilizar la facturación, con baja lógica.
-- **Hecho cuando:** vendedor/admin registran, editan, desactivan y buscan clientes; documento duplicado se rechaza; los clientes quedan invocables desde ventas.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-010] Gestión de proveedores (CU08)
 - **Objetivo:** CRUD de laboratorios y distribuidores (RUC, razón social, contacto del asesor), con baja lógica.
 - **Hecho cuando:** el administrador registra, edita, desactiva y busca proveedores; RUC duplicado se rechaza.
