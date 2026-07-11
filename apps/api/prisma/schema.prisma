@@ -66,6 +66,20 @@ model Cliente {
   @@map("clientes")
 }
 
+model Proveedor {
+  id             Int      @id @default(autoincrement())
+  ruc            String   @unique @db.VarChar(11)
+  razonSocial    String
+  asesorNombre   String?
+  asesorTelefono String?
+  asesorEmail    String?
+  activo         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("proveedores")
+}
+
 model Empleado {
   id           Int      @id @default(autoincrement())
   dni          String   @unique @db.VarChar(8)

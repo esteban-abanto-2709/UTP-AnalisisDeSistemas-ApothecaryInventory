@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-010] Gestión de proveedores (CU08)
-- **Objetivo:** CRUD de laboratorios y distribuidores (RUC, razón social, contacto del asesor), con baja lógica.
-- **Hecho cuando:** el administrador registra, edita, desactiva y busca proveedores; RUC duplicado se rechaza.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-011] Gestión de ventas (CU02)
 - **Objetivo:** registro de ventas en mostrador (carrito, cliente, comprobante, método de pago), descuento de stock en tiempo real e historial de ventas (historial solo administrador).
 - **Hecho cuando:** una venta persiste, descuenta stock al instante, genera comprobante y valida stock insuficiente; el admin visualiza el historial filtrable; soporta "Cliente Varios".

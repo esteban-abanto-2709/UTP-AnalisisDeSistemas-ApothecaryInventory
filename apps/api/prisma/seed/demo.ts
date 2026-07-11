@@ -33,6 +33,46 @@ const clientes: {
   },
 ];
 
+const proveedores: {
+  ruc: string;
+  razonSocial: string;
+  asesorNombre?: string;
+  asesorTelefono?: string;
+  asesorEmail?: string;
+  activo?: boolean;
+}[] = [
+  {
+    ruc: '20514231523',
+    razonSocial: 'Droguería Los Andes S.A.C.',
+    asesorNombre: 'Carlos Quispe Mamani',
+    asesorTelefono: '999888777',
+    asesorEmail: 'cquispe@losandes.pe',
+  },
+  {
+    ruc: '20601456789',
+    razonSocial: 'Laboratorios Pacífico Sur S.A.',
+    asesorNombre: 'Rosa Delgado Vega',
+    asesorTelefono: '987123456',
+  },
+  {
+    ruc: '20487654321',
+    razonSocial: 'Distribuidora Farma Norte E.I.R.L.',
+    asesorNombre: 'Miguel Castro Ríos',
+    asesorEmail: 'ventas@farmanorte.pe',
+  },
+  {
+    ruc: '20112233445',
+    razonSocial: 'Importadora Médica Lima S.A.C.',
+  },
+  {
+    ruc: '20399887766',
+    razonSocial: 'Botánica Insumos del Perú S.R.L.',
+    asesorNombre: 'Elena Vargas Soto',
+    asesorTelefono: '956789123',
+    activo: false,
+  },
+];
+
 const vendedores: { dni: string; nombre: string; rol: Rol }[] = [
   { dni: '40123456', nombre: 'María Quispe Huamán', rol: 'VENDEDOR' },
   { dni: '41234567', nombre: 'Jorge Ramos Torres', rol: 'VENDEDOR' },
@@ -145,6 +185,14 @@ export async function seedDemo(prisma: PrismaClient) {
     });
   }
 
+  for (const p of proveedores) {
+    await prisma.proveedor.upsert({
+      where: { ruc: p.ruc },
+      update: {},
+      create: p,
+    });
+  }
+
   for (const c of clientes) {
     await prisma.cliente.upsert({
       where: { numeroDocumento: c.numeroDocumento },
@@ -181,6 +229,6 @@ export async function seedDemo(prisma: PrismaClient) {
   }
 
   console.log(
-    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${clientes.length} clientes, ${medicamentos.length} medicamentos, ${totalLotes} lotes`,
+    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${clientes.length} clientes, ${proveedores.length} proveedores, ${medicamentos.length} medicamentos, ${totalLotes} lotes`,
   );
 }

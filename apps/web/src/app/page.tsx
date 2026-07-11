@@ -71,12 +71,20 @@ export default function Home() {
             Clientes
           </Link>
           {empleado.rol === "ADMINISTRADOR" && (
-            <Link
-              href="/usuarios"
-              className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
-            >
-              Usuarios
-            </Link>
+            <>
+              <Link
+                href="/proveedores"
+                className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+              >
+                Proveedores
+              </Link>
+              <Link
+                href="/usuarios"
+                className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+              >
+                Usuarios
+              </Link>
+            </>
           )}
           <button
             onClick={handleLogout}

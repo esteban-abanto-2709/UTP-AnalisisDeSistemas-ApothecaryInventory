@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-010] Gestión de proveedores (CU08) (2026-07-11 16:13)
+Modelo `Proveedor` (RUC único de 11 dígitos, razón social, asesor nombre/teléfono/email opcionales, baja lógica) y módulo `proveedores` solo ADMINISTRADOR: GET con búsqueda por RUC/razón social, POST con 409 por RUC duplicado y 400 por RUC inválido, PATCH edita datos/estado (RUC inmutable). Página `/proveedores` (link solo admin) y 5 proveedores en el seed demo (uno inactivo). Sin campo tipo lab/distribuidor (nada lo usa). Verificado end-to-end (CRUD, 409, 400, 403 vendedor, 401); tests, lint y build verdes en ambas apps.
+
 ## [RM-009] Gestión de clientes (CU07) (2026-07-11 12:16)
 Modelo `Cliente` (tipoDocumento DNI/RUC, numeroDocumento único, nombre/razón social, teléfono/dirección/email opcionales, baja lógica) y módulo `clientes` abierto a vendedor y admin: `GET /clientes?q=` (busca por documento o nombre), `GET /clientes/documento/:numero` para autocompletar en la venta (404 si es nuevo → alta manual), POST con validación de longitud (DNI 8, RUC 11) y 409 por documento duplicado, PATCH edita contacto/nombre/estado (documento inmutable). Integración RENIEC/SUNAT queda en WL-004. Tests y build verdes; modelo verificado contra Postgres vía seed.
 
