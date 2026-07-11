@@ -1,0 +1,51 @@
+import * as bcrypt from 'bcrypt';
+import type { PrismaClient, Rol } from '../../src/generated/prisma/client';
+
+const vendedores: { dni: string; nombre: string; rol: Rol }[] = [
+  { dni: '40123456', nombre: 'María Quispe Huamán', rol: 'VENDEDOR' },
+  { dni: '41234567', nombre: 'Jorge Ramos Torres', rol: 'VENDEDOR' },
+  { dni: '42345678', nombre: 'Lucía Fernández Rojas', rol: 'VENDEDOR' },
+  { dni: '43456789', nombre: 'Carlos Mendoza Paredes', rol: 'VENDEDOR' },
+];
+
+const medicamentos: { nombre: string; precio: string; stock: number }[] = [
+  { nombre: 'Paracetamol 500mg x 10 tab', precio: '2.50', stock: 120 },
+  { nombre: 'Ibuprofeno 400mg x 10 tab', precio: '3.80', stock: 90 },
+  { nombre: 'Amoxicilina 500mg x 10 cap', precio: '8.50', stock: 60 },
+  { nombre: 'Omeprazol 20mg x 10 cap', precio: '5.00', stock: 75 },
+  { nombre: 'Loratadina 10mg x 10 tab', precio: '4.20', stock: 80 },
+  { nombre: 'Dexametasona 4mg x 10 tab', precio: '6.90', stock: 40 },
+  { nombre: 'Azitromicina 500mg x 3 tab', precio: '12.00', stock: 35 },
+  { nombre: 'Salbutamol inhalador 100mcg', precio: '18.50', stock: 25 },
+  { nombre: 'Metformina 850mg x 30 tab', precio: '9.80', stock: 50 },
+  { nombre: 'Losartán 50mg x 30 tab', precio: '11.50', stock: 45 },
+  { nombre: 'Panadol Antigripal x 6 tab', precio: '7.00', stock: 100 },
+  { nombre: 'Sal de Andrews x 1 sobre', precio: '1.00', stock: 200 },
+  { nombre: 'Alcohol medicinal 70° 250ml', precio: '4.50', stock: 60 },
+  { nombre: 'Gasa estéril 10x10cm x 5 und', precio: '3.00', stock: 70 },
+  { nombre: 'Vitamina C 1g x 10 tab', precio: '5.50', stock: 0 },
+];
+
+export async function seedDemo(prisma: PrismaClient) {
+  const passwordHash = await bcrypt.hash('Demo1234', 10);
+
+  for (const v of vendedores) {
+    await prisma.empleado.upsert({
+      where: { dni: v.dni },
+      update: {},
+      create: { ...v, passwordHash },
+    });
+  }
+
+  for (const m of medicamentos) {
+    await prisma.medicamento.upsert({
+      where: { nombre: m.nombre },
+      update: {},
+      create: m,
+    });
+  }
+
+  console.log(
+    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${medicamentos.length} medicamentos`,
+  );
+}

@@ -22,8 +22,9 @@ apps/
 └── docker/   Base de datos PostgreSQL 16 (Docker Compose)
 ```
 
-> El `pnpm-workspace.yaml` dentro de `apps/web` es intencional (lo pide Vercel al
-> desplegar) — no lo borres pese a que "no es monorepo".
+> Los `pnpm-workspace.yaml` dentro de `apps/web` (lo pide Vercel al desplegar) y
+> `apps/api` (settings de pnpm: `allowBuilds` para los engines de Prisma) son
+> intencionales — no los borres pese a que "no es monorepo".
 
 ## Comandos
 
@@ -43,8 +44,11 @@ apps/
 - `docker compose up -d db` — levanta solo Postgres (suficiente para desarrollo
   con `start:dev` en el host).
 - `docker compose up -d --build` — levanta Postgres + API dockerizada
-  (`apps/api/Dockerfile`, puerto 4000). Migraciones y seed se corren desde el
-  host (`cd apps/api && pnpm prisma migrate deploy` / `pnpm prisma db seed`).
+  (`apps/api/Dockerfile`, puerto 4000). Al arrancar, el contenedor corre
+  `prisma migrate deploy` y luego siembra según `SEED_MODE` (`none` default ·
+  `base` solo admin · `demo` base + datos de demo). El seed está en dos capas:
+  `prisma/seed/base.ts` (requerido) y `prisma/seed/demo.ts`; desde el host,
+  `pnpm prisma db seed` respeta `SEED_MODE` (default `demo`).
 - Credenciales en `.env.example`. El `.env` real está gitignored. El override
   `docker-compose.dev.yml` publica el puerto de la BD al host (se activa vía
   `COMPOSE_FILE` en `.env`).

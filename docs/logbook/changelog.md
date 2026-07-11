@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-016] Seed en dos capas con SEED_MODE (2026-07-11 10:30)
+Seed dividido en `prisma/seed/base.ts` (admin, requerido) y `prisma/seed/demo.ts` (vendedores + medicamentos); `prisma/seed.ts` despacha según `SEED_MODE` (`none`/`base`/`demo`). El contenedor de la API ahora corre `prisma migrate deploy` + seed al arrancar vía `docker-entrypoint.sh` (seed compilado a `dist-seed/`, CLI de prisma movido a dependencias de producción, `allowBuilds` para los engines). Verificado: arranque limpio con migrate + seed demo, health y login OK.
+
 ## [RM-015] Dockerización de la API (2026-07-11 09:50)
 `Dockerfile` multi-stage en `apps/api` (build con prisma generate + nest build; runtime solo deps de producción y `dist/`) y servicio `api` en el compose de `apps/docker` (puerto 4000, `depends_on` db healthy, `DATABASE_URL` armada desde las vars de Postgres). Migraciones y seed siguen corriéndose desde el host. Verificado: `/health` y login OK desde el contenedor.
 
