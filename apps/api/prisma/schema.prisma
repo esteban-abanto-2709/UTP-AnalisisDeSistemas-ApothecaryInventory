@@ -8,3 +8,21 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Rol {
+  VENDEDOR
+  ADMINISTRADOR
+}
+
+model Empleado {
+  id           Int      @id @default(autoincrement())
+  dni          String   @unique @db.VarChar(8)
+  nombre       String
+  passwordHash String
+  rol          Rol
+  activo       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("empleados")
+}

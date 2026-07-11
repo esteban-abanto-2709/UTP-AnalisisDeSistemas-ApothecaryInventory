@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-005] Autenticación e inicio de sesión con RBAC (CU01)
-- **Objetivo:** login por credenciales, contraseñas con hash (bcrypt/argon2) y control de acceso por rol (Vendedor / Administrador).
-- **Hecho cuando:** un empleado activo inicia sesión, obtiene sesión según su rol, y las rutas quedan protegidas para no autenticados; usuario inactivo o credenciales incorrectas se rechazan con el mensaje correspondiente.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-006] Gestión de usuarios (CU06)
 - **Objetivo:** CRUD del personal (alta, edición, baja lógica, listado) con validación de DNI único.
 - **Hecho cuando:** el administrador puede registrar, editar, desactivar y listar empleados; la baja lógica revoca acceso sin borrar historial.

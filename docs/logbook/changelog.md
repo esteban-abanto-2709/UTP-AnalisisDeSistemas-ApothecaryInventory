@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-005] Autenticación e inicio de sesión con RBAC (2026-07-10 22:26)
+Login por DNI + contraseña (bcrypt) con JWT en cookie httpOnly: modelo `Empleado` + enum `Rol` en Prisma (migración `auth-empleados` + seed de admin), módulo `auth` en NestJS con guards globales (`AuthGuard` revalida `activo` en BD, `RolesGuard` por decorador) y en la web página `/login` + `proxy.ts` que protege rutas. Verificado end-to-end; tests y lint verdes en ambas apps.
+
 ## [RM-004] Conexión de la API a PostgreSQL con Prisma (2026-07-07 22:22)
 Prisma 7 (generator `prisma-client` + adapter `@prisma/adapter-pg`) cableado a NestJS vía `PrismaModule`/`PrismaService` global, con schema vacío (solo conexión). Endpoint `GET /health` hace `SELECT 1` para verificar la BD. El modelado de entidades queda para las tareas de dominio (RM-006 en adelante). `pnpm build` verde.
 
