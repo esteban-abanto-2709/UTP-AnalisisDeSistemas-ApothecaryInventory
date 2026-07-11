@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-006] Gestión de usuarios (CU06)
-- **Objetivo:** CRUD del personal (alta, edición, baja lógica, listado) con validación de DNI único.
-- **Hecho cuando:** el administrador puede registrar, editar, desactivar y listar empleados; la baja lógica revoca acceso sin borrar historial.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-007] Gestión de inventario / productos (CU03)
 - **Objetivo:** CRUD de productos farmacéuticos, búsqueda rápida y consulta de stock en tiempo real; baja lógica que preserva historial.
 - **Hecho cuando:** admin da de alta/edita/desactiva productos y el stock consultado refleja el estado real; el vendedor puede consultar pero no mantener.

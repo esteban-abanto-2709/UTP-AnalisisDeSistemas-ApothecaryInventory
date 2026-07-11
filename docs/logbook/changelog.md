@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-006] Gestión de usuarios (CU06) (2026-07-10 22:44)
+Módulo `usuarios` en NestJS (listar, alta, edición con reset opcional de contraseña, baja lógica vía PATCH `activo`) solo para ADMINISTRADOR, con 409 por DNI duplicado y bloqueo de auto-desactivación; página `/usuarios` en la web con tabla y formulario. Sin cambios de schema (el modelo `Empleado` ya cubría todo). Verificado end-to-end; tests y lint verdes.
+
 ## [RM-005] Autenticación e inicio de sesión con RBAC (2026-07-10 22:26)
 Login por DNI + contraseña (bcrypt) con JWT en cookie httpOnly: modelo `Empleado` + enum `Rol` en Prisma (migración `auth-empleados` + seed de admin), módulo `auth` en NestJS con guards globales (`AuthGuard` revalida `activo` en BD, `RolesGuard` por decorador) y en la web página `/login` + `proxy.ts` que protege rutas. Verificado end-to-end; tests y lint verdes en ambas apps.
 
