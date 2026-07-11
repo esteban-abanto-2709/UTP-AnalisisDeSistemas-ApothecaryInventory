@@ -36,7 +36,7 @@ describe('InventarioService', () => {
   it('rechaza nombre duplicado con 409', async () => {
     create.mockRejectedValue(knownError('P2002'));
     await expect(
-      service.create({ nombre: 'Paracetamol 500mg', precio: 1.5, stock: 10 }),
+      service.create({ nombre: 'Paracetamol 500mg', precio: 1.5 }),
     ).rejects.toThrow(
       new ConflictException('Ya existe un producto con ese nombre'),
     );
@@ -44,7 +44,7 @@ describe('InventarioService', () => {
 
   it('responde 404 al editar un producto inexistente', async () => {
     update.mockRejectedValue(knownError('P2025'));
-    await expect(service.update(99, { stock: 5 })).rejects.toThrow(
+    await expect(service.update(99, { precio: 5 })).rejects.toThrow(
       new NotFoundException('Producto no encontrado'),
     );
   });

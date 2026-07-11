@@ -23,7 +23,27 @@ model Medicamento {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  lotes Lote[]
+
   @@map("medicamentos")
+}
+
+model Lote {
+  id               Int         @id @default(autoincrement())
+  codigo           String
+  medicamentoId    Int
+  medicamento      Medicamento @relation(fields: [medicamentoId], references: [id])
+  fechaVencimiento DateTime    @db.Date
+  stockInicial     Int
+  stockActual      Int
+  descuento        Decimal     @default(0) @db.Decimal(5, 2)
+  activo           Boolean     @default(true)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@unique([medicamentoId, codigo])
+  @@index([medicamentoId, fechaVencimiento])
+  @@map("lotes")
 }
 
 model Empleado {

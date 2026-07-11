@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-008] Gestión de lotes con vencimientos y FEFO (CU09) (2026-07-11 10:50)
+Modelo `Lote` (código único por medicamento, vencimiento, stock inicial/actual, descuento %, baja lógica; CHECKs de rango) y módulo `lotes` (`/lotes` solo ADMINISTRADOR: alta que suma stock, edición/desactivación que lo ajusta, todo transaccional). El stock del medicamento pasa a derivarse de lotes (cacheado, ya no editable a mano) y `LotesService.descontarFEFO` implementa el descuento por vencimiento reutilizable; su cableado a ventas queda para RM-011. Verificado end-to-end contra Postgres; tests y lint verdes.
+
 ## [RM-016] Seed en dos capas con SEED_MODE (2026-07-11 10:30)
 Seed dividido en `prisma/seed/base.ts` (admin, requerido) y `prisma/seed/demo.ts` (vendedores + medicamentos); `prisma/seed.ts` despacha según `SEED_MODE` (`none`/`base`/`demo`). El contenedor de la API ahora corre `prisma migrate deploy` + seed al arrancar vía `docker-entrypoint.sh` (seed compilado a `dist-seed/`, CLI de prisma movido a dependencias de producción, `allowBuilds` para los engines). Verificado: arranque limpio con migrate + seed demo, health y login OK.
 

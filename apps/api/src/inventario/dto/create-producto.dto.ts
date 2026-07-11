@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsString, Min, MinLength } from 'class-validator';
+import { IsNumber, IsString, Min, MinLength } from 'class-validator';
 
 export class CreateProductoDto {
   @IsString()
@@ -11,8 +11,4 @@ export class CreateProductoDto {
   )
   @Min(0, { message: 'El precio no puede ser negativo' })
   precio: number;
-
-  @IsInt({ message: 'El stock debe ser un número entero' })
-  @Min(0, { message: 'El stock no puede ser negativo' })
-  stock: number;
 }

@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-008] Gestión de lotes con vencimientos y FEFO (CU09)
-- **Objetivo:** registro de lotes por medicamento con fecha de vencimiento, control de stock por lote, descuentos por vencimiento próximo y lógica FEFO.
-- **Hecho cuando:** se registran/editan/desactivan lotes, se aplican descuentos por lote y las ventas descuentan siguiendo FEFO; código de lote único por producto.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-009] Gestión de clientes (CU07)
 - **Objetivo:** CRUD de clientes (DNI/RUC, razón social, contacto) para agilizar la facturación, con baja lógica.
 - **Hecho cuando:** vendedor/admin registran, editan, desactivan y buscan clientes; documento duplicado se rechaza; los clientes quedan invocables desde ventas.
