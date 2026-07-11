@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-017] Dockerización de la web (2026-07-11 16:30)
+`Dockerfile` multi-stage en `apps/web` (pnpm + `output: "standalone"` de Next; runtime mínimo con `server.js`, sin `node_modules`) y servicio `web` en el compose (puerto 3000, `NEXT_PUBLIC_API_URL` como build arg porque se inyecta en build time). Verificado: imagen construida y contenedor respondiendo (redirige `/` → `/login` vía proxy de auth).
+
 ## [RM-010] Gestión de proveedores (CU08) (2026-07-11 16:13)
 Modelo `Proveedor` (RUC único de 11 dígitos, razón social, asesor nombre/teléfono/email opcionales, baja lógica) y módulo `proveedores` solo ADMINISTRADOR: GET con búsqueda por RUC/razón social, POST con 409 por RUC duplicado y 400 por RUC inválido, PATCH edita datos/estado (RUC inmutable). Página `/proveedores` (link solo admin) y 5 proveedores en el seed demo (uno inactivo). Sin campo tipo lab/distribuidor (nada lo usa). Verificado end-to-end (CRUD, 409, 400, 403 vendedor, 401); tests, lint y build verdes en ambas apps.
 
