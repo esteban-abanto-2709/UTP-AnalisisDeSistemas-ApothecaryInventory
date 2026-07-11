@@ -12,6 +12,12 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-015] Dockerización de la API (2026-07-11 09:50)
+`Dockerfile` multi-stage en `apps/api` (build con prisma generate + nest build; runtime solo deps de producción y `dist/`) y servicio `api` en el compose de `apps/docker` (puerto 4000, `depends_on` db healthy, `DATABASE_URL` armada desde las vars de Postgres). Migraciones y seed siguen corriéndose desde el host. Verificado: `/health` y login OK desde el contenedor.
+
+## [RM-014] Datos seed de demo (2026-07-11 09:15)
+Ampliado `apps/api/prisma/seed.ts`: 5 empleados (admin + 4 vendedores, `Demo1234`) y 15 medicamentos con precios/stock variados (uno con stock 0). Idempotente vía upsert; se ejecuta con `pnpm prisma db seed`.
+
 ## [RM-007] Gestión de inventario / productos (CU03) (2026-07-10 23:58)
 Modelo `Medicamento` en Prisma (nombre único, precio, stock, baja lógica; CHECKs de stock/precio no negativos) y módulo `inventario` en NestJS (`/productos`: GET para todo autenticado, POST/PATCH solo ADMINISTRADOR, 409 por nombre duplicado). Página `/productos` con búsqueda en vivo, tabla de stock y mantenimiento visible solo para admin. Verificado end-to-end; tests y lint verdes en ambas apps.
 

@@ -39,10 +39,15 @@ apps/
 - `pnpm run test` — Jest (unit) · `pnpm run test:e2e` — end-to-end
 - Un solo test: `pnpm run test -- <patrón>` (p. ej. `pnpm run test -- ventas.service`)
 
-**Base de datos** (`cd apps/docker`):
-- `docker compose up -d db` — levanta Postgres. Credenciales en `.env.example`.
-- El `.env` real está gitignored. El override `docker-compose.dev.yml` publica el
-  puerto de la BD al host (se activa vía `COMPOSE_FILE` en `.env`).
+**Docker** (`cd apps/docker`):
+- `docker compose up -d db` — levanta solo Postgres (suficiente para desarrollo
+  con `start:dev` en el host).
+- `docker compose up -d --build` — levanta Postgres + API dockerizada
+  (`apps/api/Dockerfile`, puerto 4000). Migraciones y seed se corren desde el
+  host (`cd apps/api && pnpm prisma migrate deploy` / `pnpm prisma db seed`).
+- Credenciales en `.env.example`. El `.env` real está gitignored. El override
+  `docker-compose.dev.yml` publica el puerto de la BD al host (se activa vía
+  `COMPOSE_FILE` en `.env`).
 
 ## Arquitectura
 
