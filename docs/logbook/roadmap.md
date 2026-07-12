@@ -10,11 +10,6 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 
 ---
 
-## [RM-011] Gestión de ventas (CU02)
-- **Objetivo:** registro de ventas en mostrador (carrito, cliente, comprobante, método de pago), descuento de stock en tiempo real e historial de ventas (historial solo administrador).
-- **Hecho cuando:** una venta persiste, descuenta stock al instante, genera comprobante y valida stock insuficiente; el admin visualiza el historial filtrable; soporta "Cliente Varios".
-- **Fecha:** 2026-07-07 · **Estado:** Abierto
-
 ## [RM-012] Reportes y exportación (CU04)
 - **Objetivo:** reportes de ventas diarias y rotación de productos por rango de fechas, exportables a PDF/Excel.
 - **Hecho cuando:** el admin genera reportes con filtros de fecha, los visualiza en tablas y los exporta; se manejan rango inválido y periodo sin registros.

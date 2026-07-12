@@ -59,6 +59,12 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-3">
           <Link
+            href="/ventas"
+            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          >
+            Nueva venta
+          </Link>
+          <Link
             href="/productos"
             className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
           >
@@ -72,6 +78,12 @@ export default function Home() {
           </Link>
           {empleado.rol === "ADMINISTRADOR" && (
             <>
+              <Link
+                href="/ventas/historial"
+                className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+              >
+                Historial
+              </Link>
               <Link
                 href="/proveedores"
                 className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"

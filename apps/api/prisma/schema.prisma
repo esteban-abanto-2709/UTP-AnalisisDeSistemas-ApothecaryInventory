@@ -19,6 +19,17 @@ enum TipoDocumento {
   RUC
 }
 
+enum TipoComprobante {
+  BOLETA
+  FACTURA
+}
+
+enum MetodoPago {
+  EFECTIVO
+  TARJETA
+  YAPE_PLIN
+}
+
 model Medicamento {
   id        Int      @id @default(autoincrement())
   nombre    String   @unique
@@ -28,7 +39,8 @@ model Medicamento {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  lotes Lote[]
+  lotes    Lote[]
+  detalles DetalleVenta[]
 
   @@map("medicamentos")
 }
@@ -46,6 +58,8 @@ model Lote {
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 
+  descuentosVenta DetalleDescuentoLote[]
+
   @@unique([medicamentoId, codigo])
   @@index([medicamentoId, fechaVencimiento])
   @@map("lotes")
@@ -62,6 +76,8 @@ model Cliente {
   activo          Boolean       @default(true)
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+
+  ventas Venta[]
 
   @@map("clientes")
 }
@@ -90,5 +106,54 @@ model Empleado {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  ventas Venta[]
+
   @@map("empleados")
+}
+
+model Venta {
+  id              Int             @id @default(autoincrement())
+  tipoComprobante TipoComprobante
+  serie           String
+  numero          Int
+  metodoPago      MetodoPago
+  clienteId       Int?
+  cliente         Cliente?        @relation(fields: [clienteId], references: [id])
+  empleadoId      Int
+  empleado        Empleado        @relation(fields: [empleadoId], references: [id])
+  total           Decimal         @db.Decimal(10, 2)
+  createdAt       DateTime        @default(now())
+
+  detalles DetalleVenta[]
+
+  @@unique([serie, numero])
+  @@index([createdAt])
+  @@map("ventas")
+}
+
+model DetalleVenta {
+  id             Int         @id @default(autoincrement())
+  ventaId        Int
+  venta          Venta       @relation(fields: [ventaId], references: [id])
+  medicamentoId  Int
+  medicamento    Medicamento @relation(fields: [medicamentoId], references: [id])
+  cantidad       Int
+  precioUnitario Decimal     @db.Decimal(10, 2)
+  subtotal       Decimal     @db.Decimal(10, 2)
+
+  descuentosLote DetalleDescuentoLote[]
+
+  @@map("detalles_venta")
+}
+
+model DetalleDescuentoLote {
+  id             Int          @id @default(autoincrement())
+  detalleVentaId Int
+  detalleVenta   DetalleVenta @relation(fields: [detalleVentaId], references: [id])
+  loteId         Int
+  lote           Lote         @relation(fields: [loteId], references: [id])
+  cantidad       Int
+  descuento      Decimal      @db.Decimal(5, 2)
+
+  @@map("detalles_descuento_lote")
 }

@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-011] Gestión de ventas (CU02) (2026-07-11 18:27)
+Modelos `Venta`/`DetalleVenta`/`DetalleDescuentoLote` (correlativo B001/F001 único por serie, CHECKs) y módulo `ventas`: POST transaccional que valida cliente (factura exige RUC), descuenta por FEFO aplicando el descuento % de cada lote al subtotal, y calcula total en servidor; GET historial con filtro de fechas solo ADMINISTRADOR; clienteId nulo = "Cliente Varios". Web: punto de venta `/ventas` (carrito, búsqueda de cliente por documento, método de pago), comprobante imprimible `/ventas/[id]` e historial `/ventas/historial`. Verificado end-to-end (FEFO cruza lotes, 409 stock, 400 factura, 403 vendedor); tests, lint y build verdes en ambas apps.
+
 ## [RM-017] Dockerización de la web (2026-07-11 16:30)
 `Dockerfile` multi-stage en `apps/web` (pnpm + `output: "standalone"` de Next; runtime mínimo con `server.js`, sin `node_modules`) y servicio `web` en el compose (puerto 3000, `NEXT_PUBLIC_API_URL` como build arg porque se inyecta en build time). Verificado: imagen construida y contenedor respondiendo (redirige `/` → `/login` vía proxy de auth).
 

@@ -8,6 +8,7 @@ import { LotesModule } from './lotes/lotes.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { VentasModule } from './ventas/ventas.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     InventarioModule,
     LotesModule,
     ProveedoresModule,
+    VentasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
