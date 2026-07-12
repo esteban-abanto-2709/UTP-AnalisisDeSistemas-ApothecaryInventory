@@ -45,8 +45,8 @@ apps/
   con `start:dev` en el host).
 - `docker compose up -d --build` — levanta Postgres + API dockerizada
   (`apps/api/Dockerfile`, puerto 4000) + web dockerizada (`apps/web/Dockerfile`,
-  puerto 3000; Next `output: standalone`, `NEXT_PUBLIC_API_URL` se inyecta como
-  build arg). Al arrancar, el contenedor de la API corre
+  puerto 3000; Next `output: standalone`, `API_PROXY_URL` se inyecta como
+  build arg y fija el destino interno del rewrite `/api/*`). Al arrancar, el contenedor de la API corre
   `prisma migrate deploy` y luego siembra según `SEED_MODE` (`none` default ·
   `base` solo admin · `demo` base + datos de demo). El seed está en dos capas:
   `prisma/seed/base.ts` (requerido) y `prisma/seed/demo.ts`; desde el host,
@@ -58,9 +58,10 @@ apps/
 ## Arquitectura
 
 N-capas: Presentación (Next.js) → API REST → Lógica de negocio y acceso a datos
-(NestJS, un módulo por dominio) → PostgreSQL. La web consume la API vía
-`NEXT_PUBLIC_API_URL`; la API se conecta a Postgres vía `DATABASE_URL` (host `db`
-dentro de Docker, `localhost` en local).
+(NestJS, un módulo por dominio) → PostgreSQL. El navegador solo habla con la web
+(mismo origen, `/api/*`); Next reenvía a la API vía rewrite (`API_PROXY_URL`,
+default `http://localhost:4000`). La API se conecta a Postgres vía `DATABASE_URL`
+(host `db` dentro de Docker, `localhost` en local).
 
 Dominios de negocio (módulos NestJS planificados): `auth`, `usuarios`, `clientes`,
 `proveedores`, `ventas`, `inventario`, `lotes`, `reportes`. Reglas transversales:

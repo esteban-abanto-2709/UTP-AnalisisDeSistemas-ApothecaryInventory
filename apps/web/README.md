@@ -23,11 +23,12 @@ Para que la app funcione de extremo a extremo necesitas la [API](../api) corrien
 
 ## Variables de entorno
 
-Crea un `.env.local` en esta carpeta:
+No necesitas ninguna en desarrollo: el navegador llama a `/api/*` y Next
+reenvía a la API (rewrite en `next.config.ts`, por defecto `http://localhost:4000`).
 
 | Variable | Descripción | Ejemplo |
 |---|---|---|
-| `NEXT_PUBLIC_API_URL` | URL base de la API REST | `http://localhost:4000` |
+| `API_PROXY_URL` | Destino interno del rewrite `/api/*` (se fija en build) | `http://api:4000` |
 
 ## Scripts
 
