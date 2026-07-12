@@ -32,10 +32,11 @@ enum MetodoPago {
 
 model Medicamento {
   id        Int      @id @default(autoincrement())
-  nombre    String   @unique
-  precio    Decimal  @db.Decimal(10, 2)
-  stock     Int      @default(0)
-  activo    Boolean  @default(true)
+  nombre      String   @unique
+  precio      Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  stockMinimo Int      @default(10)
+  activo      Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -12,6 +12,12 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-018] Rediseño UI con el design system "Conquistadores Farma" (2026-07-12 11:28)
+Toda la web adopta el diseño de Claude Design: tokens Tailwind v4 (paleta verde/gris oscuro), IBM Plex Sans/Mono, `AppShell` (sidebar RBAC + topbar) sobre route group `(app)` con contexto de empleado compartido, login de dos paneles, drawers laterales para formularios y `lib/ui.ts` con clases/badges compartidos. Rediseñados login, dashboard, inventario, POS, comprobante (imprime en blanco), historial, usuarios, clientes y proveedores; Lotes y Reportes quedan como "Pronto" en el sidebar. Lint y build verdes; páginas verificadas por HTTP (pasada visual pendiente del usuario).
+
+## [RM-013] Panel de control con alertas de stock mínimo (CU05) (2026-07-12 11:28)
+Campo `stockMinimo` en `Medicamento` (migración `stock-minimo`, editable en el form de producto) y módulo `dashboard` (`GET /dashboard` solo ADMINISTRADOR): ventas/comprobantes de hoy y ayer, tendencia de 7 días, lotes próximos a vencer (FEFO) y alertas de productos en/bajo su mínimo. Página `/` con KPIs, gráfico de barras, alertas con badges (Bajo/Crítico/Agotado) y botón de refresco; el vendedor aterriza en el POS. Verificado end-to-end (403 vendedor, 401, venta actualiza indicadores); tests verdes.
+
 ## [RM-011] Gestión de ventas (CU02) (2026-07-11 18:27)
 Modelos `Venta`/`DetalleVenta`/`DetalleDescuentoLote` (correlativo B001/F001 único por serie, CHECKs) y módulo `ventas`: POST transaccional que valida cliente (factura exige RUC), descuenta por FEFO aplicando el descuento % de cada lote al subtotal, y calcula total en servidor; GET historial con filtro de fechas solo ADMINISTRADOR; clienteId nulo = "Cliente Varios". Web: punto de venta `/ventas` (carrito, búsqueda de cliente por documento, método de pago), comprobante imprimible `/ventas/[id]` e historial `/ventas/historial`. Verificado end-to-end (FEFO cruza lotes, 409 stock, 400 factura, 403 vendedor); tests, lint y build verdes en ambas apps.
 

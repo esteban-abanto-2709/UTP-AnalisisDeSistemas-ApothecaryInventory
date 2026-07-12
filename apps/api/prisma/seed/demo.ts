@@ -86,7 +86,12 @@ type SeedLote = {
   stock: number;
   descuento?: number;
 };
-type SeedMed = { nombre: string; precio: string; lotes: SeedLote[] };
+type SeedMed = {
+  nombre: string;
+  precio: string;
+  stockMinimo?: number;
+  lotes: SeedLote[];
+};
 
 const medicamentos: SeedMed[] = [
   {
@@ -123,16 +128,19 @@ const medicamentos: SeedMed[] = [
   {
     nombre: 'Dexametasona 4mg x 10 tab',
     precio: '6.90',
+    stockMinimo: 80,
     lotes: [{ codigo: 'L01', mesesParaVencer: 6, stock: 40 }],
   },
   {
     nombre: 'Azitromicina 500mg x 3 tab',
     precio: '12.00',
+    stockMinimo: 40,
     lotes: [{ codigo: 'L01', mesesParaVencer: 8, stock: 35 }],
   },
   {
     nombre: 'Salbutamol inhalador 100mcg',
     precio: '18.50',
+    stockMinimo: 30,
     lotes: [{ codigo: 'L01', mesesParaVencer: 18, stock: 25 }],
   },
   {
@@ -207,7 +215,12 @@ export async function seedDemo(prisma: PrismaClient) {
     const med = await prisma.medicamento.upsert({
       where: { nombre: m.nombre },
       update: {},
-      create: { nombre: m.nombre, precio: m.precio, stock },
+      create: {
+        nombre: m.nombre,
+        precio: m.precio,
+        stock,
+        ...(m.stockMinimo !== undefined && { stockMinimo: m.stockMinimo }),
+      },
     });
     for (const l of m.lotes) {
       await prisma.lote.upsert({

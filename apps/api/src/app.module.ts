@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './clientes/clientes.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { InventarioModule } from './inventario/inventario.module';
 import { LotesModule } from './lotes/lotes.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -16,6 +17,7 @@ import { VentasModule } from './ventas/ventas.module';
     AuthModule,
     UsuariosModule,
     ClientesModule,
+    DashboardModule,
     InventarioModule,
     LotesModule,
     ProveedoresModule,

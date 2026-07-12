@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsInt,
   IsNumber,
   IsOptional,
   IsString,
@@ -20,6 +21,11 @@ export class UpdateProductoDto {
   )
   @Min(0, { message: 'El precio no puede ser negativo' })
   precio?: number;
+
+  @IsOptional()
+  @IsInt({ message: 'El stock mínimo debe ser un número entero' })
+  @Min(0, { message: 'El stock mínimo no puede ser negativo' })
+  stockMinimo?: number;
 
   @IsOptional()
   @IsBoolean()

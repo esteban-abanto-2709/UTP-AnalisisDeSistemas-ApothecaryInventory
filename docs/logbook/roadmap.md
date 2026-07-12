@@ -15,7 +15,3 @@ Al terminar una tarea se mueve al changelog y se borra de aquí.
 - **Hecho cuando:** el admin genera reportes con filtros de fecha, los visualiza en tablas y los exporta; se manejan rango inválido y periodo sin registros.
 - **Fecha:** 2026-07-07 · **Estado:** Abierto
 
-## [RM-013] Panel de control con alertas de stock mínimo (CU05)
-- **Objetivo:** dashboard con indicadores en tiempo real y alertas automáticas de productos en/bajo su stock mínimo.
-- **Hecho cuando:** al cargar el panel se calculan indicadores y se listan las alertas de stock crítico; permite refrescar los datos.
-- **Fecha:** 2026-07-07 · **Estado:** Abierto

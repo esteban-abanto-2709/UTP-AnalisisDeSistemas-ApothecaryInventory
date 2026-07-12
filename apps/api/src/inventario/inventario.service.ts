@@ -13,6 +13,7 @@ const SELECT = {
   nombre: true,
   precio: true,
   stock: true,
+  stockMinimo: true,
   activo: true,
 } as const;
 
