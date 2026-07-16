@@ -256,34 +256,53 @@ export default function DashboardPage() {
       </div>
 
       <div className="mb-4 grid items-stretch gap-4 lg:grid-cols-[1.6fr_1fr]">
-        <div className={`${card} px-[22px] py-5`}>
+        <div className={`${card} flex flex-col px-[22px] py-5`}>
           <div className="text-[13.5px] font-semibold text-ink">
             Ventas de los últimos 7 días
           </div>
-          <div className="mb-5 text-xs text-faint">En soles (S/)</div>
-          <div className="flex h-[150px] items-end gap-3.5">
-            {resumen.ventas7dias.map((dia, i) => {
-              const esUltimo = i === resumen.ventas7dias.length - 1;
-              const altura = Math.round((Number(dia.total) / maxDia) * 100);
-              return (
-                <div
-                  key={dia.fecha}
-                  className="flex h-full flex-1 flex-col items-center justify-end gap-2"
-                >
-                  <div
-                    title={soles(dia.total)}
-                    className={`w-full max-w-[34px] rounded-t-md ${
-                      esUltimo ? "bg-accent" : "bg-accent/35"
-                    }`}
-                    style={{ height: `${altura}%` }}
-                  />
-                  <div className="text-[11px] text-faint">
-                    {etiquetaDia(dia.fecha, esUltimo)}
+          <div className="mb-4 text-xs text-faint">En soles (S/)</div>
+          {resumen.ventas7dias.every((d) => Number(d.total) === 0) ? (
+            <p className="flex min-h-[150px] flex-1 items-center justify-center text-[13px] text-muted">
+              Aún no hay ventas registradas esta semana.
+            </p>
+          ) : (
+            <div className="flex min-h-[170px] flex-1">
+              {resumen.ventas7dias.map((dia, i) => {
+                const esUltimo = i === resumen.ventas7dias.length - 1;
+                const total = Number(dia.total);
+                const altura = Math.round((total / maxDia) * 85);
+                return (
+                  <div key={dia.fecha} className="flex flex-1 flex-col">
+                    <div
+                      title={soles(dia.total)}
+                      className="flex min-h-0 flex-1 flex-col items-center justify-end gap-1.5 border-b border-white/8 px-2"
+                    >
+                      {(esUltimo || total === maxDia) && (
+                        <div className="font-mono text-[10px] text-muted">
+                          {soles(dia.total)}
+                        </div>
+                      )}
+                      <div
+                        className={`w-full max-w-[36px] rounded-t-md ${
+                          total === 0
+                            ? "bg-white/8"
+                            : esUltimo
+                              ? "bg-accent"
+                              : "bg-accent/40"
+                        }`}
+                        style={{
+                          height: total === 0 ? 3 : `max(${altura}%, 3px)`,
+                        }}
+                      />
+                    </div>
+                    <div className="pt-2 text-center text-[11px] text-faint">
+                      {etiquetaDia(dia.fecha, esUltimo)}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         <div className={`${card} flex flex-col px-[22px] py-5`}>

@@ -1,5 +1,7 @@
 import * as bcrypt from 'bcrypt';
+import { Prisma } from '../../src/generated/prisma/client';
 import type {
+  MetodoPago,
   PrismaClient,
   Rol,
   TipoDocumento,
@@ -176,6 +178,35 @@ const medicamentos: SeedMed[] = [
   { nombre: 'Vitamina C 1g x 10 tab', precio: '5.50', lotes: [] },
 ];
 
+type VentaDemo = [
+  diasAtras: number,
+  hora: number,
+  vendedorIdx: number,
+  metodoPago: MetodoPago,
+  items: [nombre: string, cantidad: number][],
+  clienteDoc?: string,
+];
+
+const ventasDemo: VentaDemo[] = [
+  [6, 9, 0, 'EFECTIVO', [['Paracetamol 500mg x 10 tab', 2], ['Sal de Andrews x 1 sobre', 3]]],
+  [6, 16, 1, 'YAPE_PLIN', [['Ibuprofeno 400mg x 10 tab', 1], ['Alcohol medicinal 70° 250ml', 1]]],
+  [5, 10, 2, 'TARJETA', [['Azitromicina 500mg x 3 tab', 1], ['Panadol Antigripal x 6 tab', 2]]],
+  [5, 12, 3, 'EFECTIVO', [['Metformina 850mg x 30 tab', 1]]],
+  [5, 18, 0, 'EFECTIVO', [['Salbutamol inhalador 100mcg', 1]], '44556677'],
+  [4, 11, 1, 'YAPE_PLIN', [['Loratadina 10mg x 10 tab', 1], ['Paracetamol 500mg x 10 tab', 1]]],
+  [3, 9, 2, 'EFECTIVO', [['Amoxicilina 500mg x 10 cap', 2], ['Gasa estéril 10x10cm x 5 und', 2]]],
+  [3, 12, 3, 'TARJETA', [['Omeprazol 20mg x 10 cap', 3], ['Losartán 50mg x 30 tab', 1]], '20123456789'],
+  [3, 15, 0, 'EFECTIVO', [['Panadol Antigripal x 6 tab', 4]]],
+  [3, 19, 1, 'YAPE_PLIN', [['Dexametasona 4mg x 10 tab', 1], ['Alcohol medicinal 70° 250ml', 2]]],
+  [2, 10, 2, 'EFECTIVO', [['Paracetamol 500mg x 10 tab', 3]]],
+  [2, 17, 3, 'TARJETA', [['Salbutamol inhalador 100mcg', 2], ['Loratadina 10mg x 10 tab', 1]], '45678912'],
+  [1, 9, 0, 'EFECTIVO', [['Ibuprofeno 400mg x 10 tab', 2], ['Sal de Andrews x 1 sobre', 5]]],
+  [1, 13, 1, 'EFECTIVO', [['Metformina 850mg x 30 tab', 2], ['Losartán 50mg x 30 tab', 2]]],
+  [1, 18, 2, 'YAPE_PLIN', [['Panadol Antigripal x 6 tab', 1], ['Gasa estéril 10x10cm x 5 und', 1]]],
+  [0, 9, 3, 'EFECTIVO', [['Paracetamol 500mg x 10 tab', 1], ['Alcohol medicinal 70° 250ml', 1]]],
+  [0, 11, 0, 'TARJETA', [['Amoxicilina 500mg x 10 cap', 1], ['Omeprazol 20mg x 10 cap', 1]]],
+];
+
 function vencimiento(meses: number): Date {
   const d = new Date();
   d.setMonth(d.getMonth() + meses);
@@ -241,7 +272,72 @@ export async function seedDemo(prisma: PrismaClient) {
     }
   }
 
+  let totalVentas = 0;
+  if ((await prisma.venta.count()) === 0) {
+    const meds = await prisma.medicamento.findMany({
+      select: { id: true, nombre: true, precio: true },
+    });
+    const medPorNombre = new Map(meds.map((m) => [m.nombre, m]));
+    const empleados = await prisma.empleado.findMany({
+      where: { dni: { in: vendedores.map((v) => v.dni) } },
+      orderBy: { dni: 'asc' },
+      select: { id: true },
+    });
+    const clientesDb = await prisma.cliente.findMany({
+      select: { id: true, numeroDocumento: true },
+    });
+    const clientePorDoc = new Map(
+      clientesDb.map((c) => [c.numeroDocumento, c.id]),
+    );
+    const numeroPorSerie: Record<string, number> = { B001: 0, F001: 0 };
+
+    for (const [
+      diasAtras,
+      hora,
+      vendedorIdx,
+      metodoPago,
+      items,
+      clienteDoc,
+    ] of ventasDemo) {
+      const createdAt = new Date();
+      createdAt.setDate(createdAt.getDate() - diasAtras);
+      createdAt.setHours(hora, (hora * 7) % 60, 0, 0);
+
+      let total = new Prisma.Decimal(0);
+      const detalles = items.map(([nombre, cantidad]) => {
+        const med = medPorNombre.get(nombre);
+        if (!med) throw new Error(`Medicamento no sembrado: ${nombre}`);
+        const subtotal = med.precio.mul(cantidad);
+        total = total.add(subtotal);
+        return {
+          medicamentoId: med.id,
+          cantidad,
+          precioUnitario: med.precio,
+          subtotal,
+        };
+      });
+
+      const esFactura = clienteDoc?.length === 11;
+      const serie = esFactura ? 'F001' : 'B001';
+      numeroPorSerie[serie]++;
+      await prisma.venta.create({
+        data: {
+          tipoComprobante: esFactura ? 'FACTURA' : 'BOLETA',
+          serie,
+          numero: numeroPorSerie[serie],
+          metodoPago,
+          clienteId: clienteDoc ? clientePorDoc.get(clienteDoc) : undefined,
+          empleadoId: empleados[vendedorIdx].id,
+          total,
+          createdAt,
+          detalles: { create: detalles },
+        },
+      });
+      totalVentas++;
+    }
+  }
+
   console.log(
-    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${clientes.length} clientes, ${proveedores.length} proveedores, ${medicamentos.length} medicamentos, ${totalLotes} lotes`,
+    `Seed demo OK: ${vendedores.length} vendedores (dni/Demo1234), ${clientes.length} clientes, ${proveedores.length} proveedores, ${medicamentos.length} medicamentos, ${totalLotes} lotes, ${totalVentas} ventas`,
   );
 }

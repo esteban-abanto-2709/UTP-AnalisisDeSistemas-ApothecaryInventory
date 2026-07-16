@@ -18,3 +18,10 @@ Al resolverse, la entrada se mueve al changelog conservando su código.
 - **Problema:** `pnpm install --prod` instala igualmente `@prisma/studio-core`, `typescript`, `react`, `effect` y `pglite` (~130MB) porque `@prisma/client` los declara como peers y el auto-install de peers los fijó en el lockfile. (El CLI `prisma` ya no cuenta: es dependencia de producción intencional, el entrypoint corre `migrate deploy`.)
 - **Impacto futuro:** imagen final ~700MB en vez de ~570MB; solo costo de disco/transfer, ningún riesgo funcional.
 - **Fecha:** 2026-07-11 · **Estado:** Abierto
+
+## [TD-003] Ventas del seed demo no descuentan stock de lotes
+- **Ubicación:** `apps/api/prisma/seed/demo.ts` (bloque `ventasDemo`)
+- **Riesgo:** 2/10
+- **Problema:** las 17 ventas de demo se insertan directo con Prisma, sin pasar por la lógica FEFO ni descontar `stockActual` de los lotes ni `stock` del medicamento; tampoco crean `DetalleDescuentoLote`.
+- **Impacto futuro:** en la demo, el historial de ventas no cuadra con el stock mostrado (los lotes siguen con `stockInicial == stockActual`). Solo afecta coherencia de datos ficticios; ninguna pantalla actual lo evidencia.
+- **Fecha:** 2026-07-16 · **Estado:** Abierto
