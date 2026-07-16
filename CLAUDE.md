@@ -44,15 +44,19 @@ apps/
 - `docker compose up -d db` — levanta solo Postgres (suficiente para desarrollo
   con `start:dev` en el host).
 - `docker compose up -d --build` — levanta Postgres + API dockerizada
-  (`apps/api/Dockerfile`, puerto 4000) + web dockerizada (`apps/web/Dockerfile`,
-  puerto 3000; Next `output: standalone`, `API_PROXY_URL` se inyecta como
-  build arg y fija el destino interno del rewrite `/api/*`). Al arrancar, el contenedor de la API corre
+  (`apps/api/Dockerfile`) + web dockerizada (`apps/web/Dockerfile`;
+  Next `output: standalone`, `API_PROXY_URL` se inyecta como
+  build arg y fija el destino interno del rewrite `/api/*`) + túnel Cloudflare
+  (`cloudflared`, único punto de entrada: quick tunnel por defecto con URL
+  aleatoria en sus logs, o túnel con dominio propio vía `TUNNEL_TOKEN`).
+  Ningún servicio publica puertos al host; el override `docker-compose.dev.yml`
+  publica BD, web (3000) y API (4000). Al arrancar, el contenedor de la API corre
   `prisma migrate deploy` y luego siembra según `SEED_MODE` (`none` default ·
   `base` solo admin · `demo` base + datos de demo). El seed está en dos capas:
   `prisma/seed/base.ts` (requerido) y `prisma/seed/demo.ts`; desde el host,
   `pnpm prisma db seed` respeta `SEED_MODE` (default `demo`).
 - Credenciales en `.env.example`. El `.env` real está gitignored. El override
-  `docker-compose.dev.yml` publica el puerto de la BD al host (se activa vía
+  `docker-compose.dev.yml` publica los puertos al host (se activa vía
   `COMPOSE_FILE` en `.env`).
 
 ## Arquitectura

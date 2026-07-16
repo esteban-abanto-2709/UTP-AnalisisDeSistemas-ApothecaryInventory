@@ -12,6 +12,12 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-020] Túnel Cloudflare como punto de entrada (2026-07-16 08:07)
+Servicio `cloudflared` en el compose: quick tunnel por defecto (`--url http://web:3000`, URL aleatoria en los logs) con variante de túnel con token comentada (`TUNNEL_TOKEN` en `.env`). El túnel es el único punto de entrada del stack.
+
+## [RM-019] Cerrar puertos 3000/4000 en despliegue (2026-07-16 08:07)
+Los `ports:` de `web` y `api` pasaron de `docker-compose.yml` al override `docker-compose.dev.yml` (mismo patrón que la BD); en producción ningún servicio publica puertos (entra por el túnel, RM-020). Verificado con el stack levantado sin puertos: login 200 y `GET /clientes` 200 desde dentro de la red.
+
 ## [RM-018] Rediseño UI con el design system "Conquistadores Farma" (2026-07-12 11:28)
 Toda la web adopta el diseño de Claude Design: tokens Tailwind v4 (paleta verde/gris oscuro), IBM Plex Sans/Mono, `AppShell` (sidebar RBAC + topbar) sobre route group `(app)` con contexto de empleado compartido, login de dos paneles, drawers laterales para formularios y `lib/ui.ts` con clases/badges compartidos. Rediseñados login, dashboard, inventario, POS, comprobante (imprime en blanco), historial, usuarios, clientes y proveedores; Lotes y Reportes quedan como "Pronto" en el sidebar. Lint y build verdes; páginas verificadas por HTTP (pasada visual pendiente del usuario).
 

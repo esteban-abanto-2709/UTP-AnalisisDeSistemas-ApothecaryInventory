@@ -26,8 +26,6 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3000}
       SEED_MODE: ${SEED_MODE:-none}
-    ports:
-      - "127.0.0.1:${API_PORT:-4000}:4000"
     depends_on:
       db:
         condition: service_healthy
@@ -39,10 +37,19 @@ services:
       args:
         API_PROXY_URL: http://api:4000
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:${WEB_PORT:-3000}:3000"
     depends_on:
       - api
+
+  cloudflared:
+    container_name: apothecary-tunnel
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://web:3000
+    # command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      - web
 
 volumes:
   apothecary-db-data:
