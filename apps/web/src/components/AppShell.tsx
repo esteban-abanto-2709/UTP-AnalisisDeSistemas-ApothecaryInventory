@@ -291,31 +291,15 @@ export default function AppShell({ children }: { children: ReactNode }) {
             </div>
           ))}
         </nav>
-
-        <div className="mt-2.5 border-t border-white/8 pt-3.5">
-          <div className="flex items-center gap-2.5 px-2.5 py-2">
-            <div className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full bg-avatar text-[13px] font-bold text-muted">
-              {iniciales(empleado.nombre)}
-            </div>
-            <div className="min-w-0">
-              <div className="truncate text-[13px] font-semibold text-ink">
-                {empleado.nombre}
-              </div>
-              <button
-                onClick={handleLogout}
-                className="cursor-pointer text-[11.5px] text-faint hover:text-muted"
-              >
-                Cerrar sesión
-              </button>
-            </div>
-          </div>
-        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-16 flex-none items-center justify-between border-b border-white/8 bg-surface px-7 print:hidden">
           <div className="text-[15px] font-semibold text-ink">{titulo}</div>
-          <div className="flex items-center gap-2.5">
+          <button
+            popoverTarget="menu-usuario"
+            className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-left hover:bg-white/4"
+          >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-avatar text-[12.5px] font-bold text-muted">
               {iniciales(empleado.nombre)}
             </div>
@@ -329,6 +313,25 @@ export default function AppShell({ children }: { children: ReactNode }) {
                 {esAdmin ? "Administrador" : "Vendedor"}
               </div>
             </div>
+            <svg {...ICON_PROPS} width={14} height={14} className="text-faint">
+              <path d="M6 9.5 12 15l6-5.5" />
+            </svg>
+          </button>
+          <div
+            id="menu-usuario"
+            popover="auto"
+            className="fixed inset-auto right-7 top-[60px] m-0 w-44 rounded-lg border border-white/8 bg-surface p-1 shadow-lg"
+          >
+            <button
+              onClick={handleLogout}
+              className="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2 text-left text-[12.5px] font-medium text-muted hover:bg-white/4 hover:text-ink"
+            >
+              <svg {...ICON_PROPS} width={15} height={15}>
+                <path d="M15 4H7a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 7 20h8" />
+                <path d="M11 12h9.5M17.5 8.5 21 12l-3.5 3.5" />
+              </svg>
+              Cerrar sesión
+            </button>
           </div>
         </header>
 
