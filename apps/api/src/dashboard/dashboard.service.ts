@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { claveDia, inicioDia, sumarDias } from '../common/fechas';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -9,9 +10,9 @@ export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
   async resumen() {
-    const hoy = this.inicioDia(new Date());
-    const inicioVentana = this.sumarDias(hoy, -(DIAS_TENDENCIA - 1));
-    const manana = this.sumarDias(hoy, 1);
+    const hoy = inicioDia(new Date());
+    const inicioVentana = sumarDias(hoy, -(DIAS_TENDENCIA - 1));
+    const manana = sumarDias(hoy, 1);
 
     const [ventas, alertasStock, lotesPorVencer] = await Promise.all([
       this.prisma.venta.findMany({
@@ -47,7 +48,7 @@ export class DashboardService {
     const porDia = new Map<string, Prisma.Decimal>();
     const comprobantesPorDia = new Map<string, number>();
     for (const v of ventas) {
-      const clave = this.claveDia(v.createdAt);
+      const clave = claveDia(v.createdAt);
       porDia.set(
         clave,
         (porDia.get(clave) ?? new Prisma.Decimal(0)).add(v.total),
@@ -56,8 +57,8 @@ export class DashboardService {
     }
 
     const ventas7dias = Array.from({ length: DIAS_TENDENCIA }, (_, i) => {
-      const dia = this.sumarDias(inicioVentana, i);
-      const clave = this.claveDia(dia);
+      const dia = sumarDias(inicioVentana, i);
+      const clave = claveDia(dia);
       return {
         fecha: clave,
         total: (porDia.get(clave) ?? new Prisma.Decimal(0)).toFixed(2),
@@ -65,8 +66,8 @@ export class DashboardService {
       };
     });
 
-    const claveHoy = this.claveDia(hoy);
-    const claveAyer = this.claveDia(this.sumarDias(hoy, -1));
+    const claveHoy = claveDia(hoy);
+    const claveAyer = claveDia(sumarDias(hoy, -1));
 
     return {
       hoy: {
@@ -81,22 +82,5 @@ export class DashboardService {
       alertasStock,
       lotesPorVencer,
     };
-  }
-
-  private inicioDia(fecha: Date) {
-    const d = new Date(fecha);
-    d.setHours(0, 0, 0, 0);
-    return d;
-  }
-
-  private sumarDias(fecha: Date, dias: number) {
-    const d = new Date(fecha);
-    d.setDate(d.getDate() + dias);
-    return d;
-  }
-
-  private claveDia(fecha: Date) {
-    const d = new Date(fecha);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
 }

@@ -8,6 +8,7 @@ import { InventarioModule } from './inventario/inventario.module';
 import { LotesModule } from './lotes/lotes.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
+import { ReportesModule } from './reportes/reportes.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { VentasModule } from './ventas/ventas.module';
 
@@ -21,6 +22,7 @@ import { VentasModule } from './ventas/ventas.module';
     InventarioModule,
     LotesModule,
     ProveedoresModule,
+    ReportesModule,
     VentasModule,
   ],
   controllers: [AppController],

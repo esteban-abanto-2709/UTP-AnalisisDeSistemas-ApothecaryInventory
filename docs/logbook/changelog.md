@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-012] Reportes y exportación (CU04) (2026-07-18 11:17)
+Módulo `reportes` en la API (`ventas-diarias` y `rotacion` por rango, solo admin) y página `/reportes` con rango de fechas, totales y las dos tablas; el sidebar deja de mostrar "Pronto". Exportación sin dependencias: CSV por `Blob` y PDF por `window.print()` con las clases `print:` ya existentes.
+
 ## [RM-022] Límites de longitud y validación de entrada (2026-07-18 11:10)
 `@MaxLength`/`@Max` en los DTOs de inventario, clientes, proveedores y usuarios con el mismo `maxLength` en cada input; lista blanca de teléfono y nombre sin dígitos centralizadas en `src/common/validacion.ts`, documento del POS filtrado a dígitos. Las celdas de texto libre truncan con `celdaTexto` (`lib/ui.ts`).
 
