@@ -18,6 +18,7 @@ export const btnLink =
 export const thClass =
   "px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-faint";
 export const tdClass = "px-4 py-3 text-[13px]";
+export const celdaTexto = "block max-w-[260px] truncate";
 export const trClass =
   "border-b border-white/5 transition-colors last:border-0 hover:bg-raise";
 

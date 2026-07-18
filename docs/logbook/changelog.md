@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-022] Límites de longitud y validación de entrada (2026-07-18 11:10)
+`@MaxLength`/`@Max` en los DTOs de inventario, clientes, proveedores y usuarios con el mismo `maxLength` en cada input; lista blanca de teléfono y nombre sin dígitos centralizadas en `src/common/validacion.ts`, documento del POS filtrado a dígitos. Las celdas de texto libre truncan con `celdaTexto` (`lib/ui.ts`).
+
 ## [RM-021] Pantalla de lotes y vencimientos (2026-07-18 10:40)
 Página `/lotes` (alta, edición, baja lógica, filtros por producto y por vencimiento) sobre el módulo `lotes` ya existente, uniendo con `/productos` en cliente; el sidebar deja de mostrar "Pronto". Se sumó ajuste manual de `stockActual` (merma/conteo) en `UpdateLoteDto` y `LotesService.update`, con el delta al stock del medicamento calculado en un solo lugar para no duplicarlo al desactivar y ajustar a la vez.
 

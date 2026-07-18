@@ -312,7 +312,9 @@ export default function VentasPage() {
                 inputMode="numeric"
                 maxLength={11}
                 value={documento}
-                onChange={(e) => setDocumento(e.target.value)}
+                onChange={(e) =>
+                  setDocumento(e.target.value.replace(/\D/g, ""))
+                }
                 placeholder="Vacío = Cliente Varios"
                 className={`${inputClass} mt-0`}
               />

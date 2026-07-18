@@ -16,6 +16,7 @@ import {
   statCard,
   statLabel,
   statValue,
+  celdaTexto,
   tdClass,
   thClass,
   trClass,
@@ -204,10 +205,12 @@ export default function HistorialVentasPage() {
                     {new Date(v.createdAt).toLocaleString("es-PE")}
                   </td>
                   <td className={`${tdClass} text-ink`}>
-                    {v.cliente?.nombre ?? "Cliente Varios"}
+                    <span className={celdaTexto}>
+                      {v.cliente?.nombre ?? "Cliente Varios"}
+                    </span>
                   </td>
                   <td className={`${tdClass} text-muted`}>
-                    {v.empleado.nombre}
+                    <span className={celdaTexto}>{v.empleado.nombre}</span>
                   </td>
                   <td className={tdClass}>
                     <span className={METODO[v.metodoPago].badge}>

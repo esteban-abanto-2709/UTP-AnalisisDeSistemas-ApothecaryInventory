@@ -10,6 +10,7 @@ import {
   card,
   inputClass,
   labelClass,
+  celdaTexto,
   tdClass,
   thClass,
   trClass,
@@ -208,10 +209,14 @@ export default function ClientesPage() {
                     <span className="text-ink">{cliente.numeroDocumento}</span>
                   </td>
                   <td className={`${tdClass} font-medium text-ink`}>
-                    {cliente.nombre}
+                    <span className={celdaTexto} title={cliente.nombre}>
+                      {cliente.nombre}
+                    </span>
                   </td>
                   <td className={`${tdClass} text-muted`}>
-                    {cliente.telefono ?? cliente.email ?? "—"}
+                    <span className={celdaTexto}>
+                      {cliente.telefono ?? cliente.email ?? "—"}
+                    </span>
                   </td>
                   <td className={tdClass}>
                     <span className="flex items-center gap-2">
@@ -287,6 +292,7 @@ export default function ClientesPage() {
                 name="nombre"
                 type="text"
                 required
+                maxLength={150}
                 defaultValue={editing?.nombre}
                 className={inputClass}
               />
@@ -297,6 +303,9 @@ export default function ClientesPage() {
                 name="telefono"
                 type="text"
                 inputMode="tel"
+                maxLength={20}
+                pattern="[\d+\-#() ]+"
+                title="Solo dígitos y los signos + - # ( )"
                 defaultValue={editing?.telefono ?? ""}
                 className={inputClass}
               />
@@ -306,6 +315,7 @@ export default function ClientesPage() {
               <input
                 name="email"
                 type="email"
+                maxLength={120}
                 defaultValue={editing?.email ?? ""}
                 className={inputClass}
               />
@@ -315,6 +325,7 @@ export default function ClientesPage() {
               <input
                 name="direccion"
                 type="text"
+                maxLength={200}
                 defaultValue={editing?.direccion ?? ""}
                 className={inputClass}
               />

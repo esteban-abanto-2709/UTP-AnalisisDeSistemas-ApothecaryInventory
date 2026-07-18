@@ -16,6 +16,7 @@ import {
   statCard,
   statLabel,
   statValue,
+  celdaTexto,
   tdClass,
   thClass,
   trClass,
@@ -230,7 +231,10 @@ export default function UsuariosPage() {
                       <div className="flex h-[30px] w-[30px] flex-none items-center justify-center rounded-full bg-avatar text-[11.5px] font-bold text-muted">
                         {iniciales(usuario.nombre)}
                       </div>
-                      <span className="font-medium text-ink">
+                      <span
+                        className={`${celdaTexto} font-medium text-ink`}
+                        title={usuario.nombre}
+                      >
                         {usuario.nombre}
                       </span>
                     </div>
@@ -313,6 +317,9 @@ export default function UsuariosPage() {
                 name="nombre"
                 type="text"
                 required
+                maxLength={100}
+                pattern="[^\d]+"
+                title="El nombre no admite dígitos"
                 defaultValue={editing?.nombre}
                 placeholder="Ej. Sofía Ramírez"
                 className={inputClass}
@@ -324,6 +331,7 @@ export default function UsuariosPage() {
                 name="password"
                 type="password"
                 minLength={6}
+                maxLength={72}
                 required={!editing}
                 autoComplete="new-password"
                 className={inputClass}

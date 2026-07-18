@@ -10,6 +10,7 @@ import {
   btnGhost,
   btnPrimary,
   card,
+  celdaTexto,
   estadoStock,
   ESTADO_STOCK_UI,
   inputClass,
@@ -297,7 +298,9 @@ export default function ProductosPage() {
                 return (
                   <tr key={producto.id} className={trClass}>
                     <td className={`${tdClass} font-medium text-ink`}>
-                      {producto.nombre}
+                      <span className={celdaTexto} title={producto.nombre}>
+                        {producto.nombre}
+                      </span>
                     </td>
                     <td className={`${tdClass} font-mono text-ink`}>
                       {producto.stock}
@@ -356,6 +359,7 @@ export default function ProductosPage() {
                 name="nombre"
                 type="text"
                 required
+                maxLength={100}
                 defaultValue={editing?.nombre}
                 className={inputClass}
               />
@@ -367,6 +371,7 @@ export default function ProductosPage() {
                 type="number"
                 step="0.01"
                 min="0"
+                max="99999.99"
                 required
                 defaultValue={editing?.precio}
                 className={inputClass}
@@ -379,6 +384,7 @@ export default function ProductosPage() {
                 type="number"
                 step="1"
                 min="0"
+                max="9999"
                 required
                 defaultValue={editing?.stockMinimo ?? 10}
                 className={inputClass}

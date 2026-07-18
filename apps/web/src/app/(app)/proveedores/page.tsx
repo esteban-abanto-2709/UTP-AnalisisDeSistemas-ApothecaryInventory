@@ -10,6 +10,7 @@ import {
   card,
   inputClass,
   labelClass,
+  celdaTexto,
   tdClass,
   thClass,
   trClass,
@@ -208,13 +209,17 @@ export default function ProveedoresPage() {
                     {proveedor.ruc}
                   </td>
                   <td className={`${tdClass} font-medium text-ink`}>
-                    {proveedor.razonSocial}
+                    <span className={celdaTexto} title={proveedor.razonSocial}>
+                      {proveedor.razonSocial}
+                    </span>
                   </td>
                   <td className={`${tdClass} text-muted`}>
-                    {proveedor.asesorNombre ?? "—"}
-                    {proveedor.asesorTelefono && (
-                      <span> · {proveedor.asesorTelefono}</span>
-                    )}
+                    <span className={celdaTexto}>
+                      {proveedor.asesorNombre ?? "—"}
+                      {proveedor.asesorTelefono && (
+                        <span> · {proveedor.asesorTelefono}</span>
+                      )}
+                    </span>
                   </td>
                   <td className={tdClass}>
                     <span className="flex items-center gap-2">
@@ -283,6 +288,7 @@ export default function ProveedoresPage() {
                 name="razonSocial"
                 type="text"
                 required
+                maxLength={200}
                 defaultValue={editing?.razonSocial}
                 className={inputClass}
               />
@@ -292,6 +298,7 @@ export default function ProveedoresPage() {
               <input
                 name="asesorNombre"
                 type="text"
+                maxLength={100}
                 defaultValue={editing?.asesorNombre ?? ""}
                 className={inputClass}
               />
@@ -302,6 +309,9 @@ export default function ProveedoresPage() {
                 name="asesorTelefono"
                 type="text"
                 inputMode="tel"
+                maxLength={20}
+                pattern="[\d+\-#() ]+"
+                title="Solo dígitos y los signos + - # ( )"
                 defaultValue={editing?.asesorTelefono ?? ""}
                 className={inputClass}
               />
@@ -311,6 +321,7 @@ export default function ProveedoresPage() {
               <input
                 name="asesorEmail"
                 type="email"
+                maxLength={120}
                 defaultValue={editing?.asesorEmail ?? ""}
                 className={inputClass}
               />

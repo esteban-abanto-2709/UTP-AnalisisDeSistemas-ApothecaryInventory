@@ -12,6 +12,7 @@ import {
   btnGhost,
   btnPrimary,
   card,
+  celdaTexto,
   inputClass,
   labelClass,
   statCard,
@@ -331,10 +332,15 @@ export default function LotesPage() {
                 return (
                   <tr key={lote.id} className={trClass}>
                     <td className={`${tdClass} font-medium text-ink`}>
-                      {nombreProducto(lote.medicamentoId)}
+                      <span
+                        className={celdaTexto}
+                        title={nombreProducto(lote.medicamentoId)}
+                      >
+                        {nombreProducto(lote.medicamentoId)}
+                      </span>
                     </td>
                     <td className={`${tdClass} font-mono text-muted`}>
-                      {lote.codigo}
+                      <span className={celdaTexto}>{lote.codigo}</span>
                     </td>
                     <td className={`${tdClass} font-mono text-ink`}>
                       {fechaCorta(lote.fechaVencimiento)}
