@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-023] Suite de pruebas end-to-end de la API (2026-07-18 11:56)
+5 specs (auth, usuarios, catálogo, venta FEFO, reportes) + `test/setup.ts`, 87 casos contra Postgres real vía supertest; sin BD aparte: datos con sufijo único y reportes medidos por delta. `test:e2e` arranca jest con `--experimental-vm-modules` (Prisma 7 carga su compilador WASM con `import()` dinámico) y en serie por la numeración global de comprobantes.
+
 ## [RM-012] Reportes y exportación (CU04) (2026-07-18 11:17)
 Módulo `reportes` en la API (`ventas-diarias` y `rotacion` por rango, solo admin) y página `/reportes` con rango de fechas, totales y las dos tablas; el sidebar deja de mostrar "Pronto". Exportación sin dependencias: CSV por `Blob` y PDF por `window.print()` con las clases `print:` ya existentes.
 
