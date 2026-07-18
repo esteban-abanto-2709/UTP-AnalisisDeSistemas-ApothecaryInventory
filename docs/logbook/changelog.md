@@ -12,6 +12,9 @@ Resumen en ≤2 líneas de lo que se hizo.
 
 ---
 
+## [RM-021] Pantalla de lotes y vencimientos (2026-07-18 10:40)
+Página `/lotes` (alta, edición, baja lógica, filtros por producto y por vencimiento) sobre el módulo `lotes` ya existente, uniendo con `/productos` en cliente; el sidebar deja de mostrar "Pronto". Se sumó ajuste manual de `stockActual` (merma/conteo) en `UpdateLoteDto` y `LotesService.update`, con el delta al stock del medicamento calculado en un solo lugar para no duplicarlo al desactivar y ajustar a la vez.
+
 ## [RM-020] Túnel Cloudflare como punto de entrada (2026-07-16 08:07)
 Servicio `cloudflared` en el compose: quick tunnel por defecto (`--url http://web:3000`, URL aleatoria en los logs) con variante de túnel con token comentada (`TUNNEL_TOKEN` en `.env`). El túnel es el único punto de entrada del stack.
 

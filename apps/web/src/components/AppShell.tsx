@@ -146,6 +146,7 @@ const SECCIONES: { titulo: string; items: NavItem[]; soloAdmin?: boolean }[] = [
         ),
       },
       {
+        href: "/lotes",
         label: "Lotes y Vencimientos",
         soloAdmin: true,
         icon: (
@@ -192,6 +193,7 @@ const TITULOS: [RegExp, string][] = [
   [/^\/productos/, "Inventario de productos"],
   [/^\/clientes/, "Gestión de clientes"],
   [/^\/proveedores/, "Gestión de proveedores"],
+  [/^\/lotes/, "Lotes y vencimientos"],
   [/^\/usuarios/, "Usuarios y roles"],
 ];
 

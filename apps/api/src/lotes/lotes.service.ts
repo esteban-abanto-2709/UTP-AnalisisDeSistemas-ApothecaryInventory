@@ -61,9 +61,23 @@ export class LotesService {
       return await this.prisma.$transaction(async (tx) => {
         const actual = await tx.lote.findUnique({
           where: { id },
-          select: { activo: true, stockActual: true, medicamentoId: true },
+          select: {
+            activo: true,
+            stockActual: true,
+            stockInicial: true,
+            medicamentoId: true,
+          },
         });
         if (!actual) throw new NotFoundException('Lote no encontrado');
+
+        if (
+          dto.stockActual !== undefined &&
+          dto.stockActual > actual.stockInicial
+        ) {
+          throw new ConflictException(
+            'El stock del lote no puede superar su stock inicial',
+          );
+        }
 
         const lote = await tx.lote.update({
           where: { id },
@@ -73,16 +87,21 @@ export class LotesService {
               ? new Date(dto.fechaVencimiento)
               : undefined,
             descuento: dto.descuento,
+            stockActual: dto.stockActual,
             activo: dto.activo,
           },
           select: SELECT,
         });
 
-        if (dto.activo !== undefined && dto.activo !== actual.activo) {
-          const delta = dto.activo ? actual.stockActual : -actual.stockActual;
+        const aportabaAntes = actual.activo ? actual.stockActual : 0;
+        const aportaAhora =
+          (dto.activo ?? actual.activo)
+            ? (dto.stockActual ?? actual.stockActual)
+            : 0;
+        if (aportaAhora !== aportabaAntes) {
           await tx.medicamento.update({
             where: { id: actual.medicamentoId },
-            data: { stock: { increment: delta } },
+            data: { stock: { increment: aportaAhora - aportabaAntes } },
           });
         }
         return lote;

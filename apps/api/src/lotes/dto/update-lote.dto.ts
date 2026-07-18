@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsDateString,
+  IsInt,
   IsNumber,
   IsOptional,
   IsString,
@@ -30,6 +31,11 @@ export class UpdateLoteDto {
   @Min(0, { message: 'El descuento no puede ser negativo' })
   @Max(100, { message: 'El descuento no puede superar 100%' })
   descuento?: number;
+
+  @IsOptional()
+  @IsInt({ message: 'El stock debe ser un número entero' })
+  @Min(0, { message: 'El stock no puede ser negativo' })
+  stockActual?: number;
 
   @IsOptional()
   @IsBoolean()
